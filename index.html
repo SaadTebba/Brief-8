@@ -1,12 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+    <script src="https://kit.fontawesome.com/165265fe22.js" crossorigin="anonymous"></script>
     <title>Brief-8</title>
 </head>
+
 <body>
-    
+
+    <main>
+
+        <section id="inputs">
+
+            <h1>Produits Cosmétiques</h1>
+
+            <!-- <label for="nom">Nom</label> -->
+            <input type="text" id="nom" class="input" placeholder="Nom">
+            <i class="fas fa-exclamation-circle" id="nomerror"><span class="errortext">Le nom doit comporter entre 3 et 30 caractères</span></i>
+
+            <!-- <label for="marque">Marque</label> -->
+            <input type="text" id="marque" class="input" placeholder="Marque">
+            <i class="fas fa-exclamation-circle" id="nomerror"><span class="errortext">La marque doit comporter entre 3 et 30 caractères</span></i>
+
+            <!-- <label for="prix">Prix</label> -->
+            <input type="number" id="prix" class="input" placeholder="Prix">
+            <i class="fas fa-exclamation-circle" id="prixerror"><span class="errortext">Le prix doit être un réel</span></i>
+
+            <!-- <label for="date">Date de Production</label> -->
+            <input type="date" id="date" class="input" placeholder="Date">
+            <i class="fas fa-exclamation-circle" id="dateerror"><span class="errortext">Entrez une date valide</span></i>
+
+            <!-- <p>Les types</p> -->
+            <select name="type" id="type" class="input">
+                <option disabled selected value="choisis une option">-- Choisis le type --</option>
+                <option value="Hygiène et toilette">Hygiène et toilette</option>
+                <option value="Soins esthétiques">Soins esthétiques</option>
+                <option value="Produits solaires">Produits solaires</option>
+                <option value="Beauté des mains et des pieds">Beauté des mains et des pieds</option>
+                <option value="Produits de maquillage">Produits de maquillage</option>
+                <option value="Entretien capillaires">Entretien capillaires</option>
+                <option value="Parfums">Parfums</option>
+            </select>
+            <i class="fas fa-exclamation-circle" id="typeerror"><span class="errortext">choisis une option</span></i>
+
+            <p>Est en promotion</p>
+            <label for="non">non</label>
+            <input type="radio" id="non" name="promotion" value="non" class="radioinput"><br>
+            <label for="oui">oui</label>
+            <input type="radio" id="oui" name="promotion" value="oui" class="radioinput">
+            <i class="fas fa-exclamation-circle" id="promotionerror"><span class="errortext">choisis une option</span></i>
+
+        </section>
+
+
+        <section id="table">
+            <table>
+                <tr>
+                    <th>Nom</th>
+                    <th>Marque</th>
+                    <th>Prix</th>
+                    <th>Date Production</th>
+                    <th>Type</th>
+                    <th>Promotion</th>
+                    <th>Modification</th>
+                    <th>Suppression</th>
+                </tr>
+            </table>
+        </section>
+
+    </main>
+
 </body>
+
 </html>

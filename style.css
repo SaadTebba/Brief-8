@@ -1,0 +1,78 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: arial, sans-serif;
+}
+
+/* ==================================== Grid ==================================== */
+
+main {
+    display: grid;
+    grid-template-areas: 'inputs table';
+    grid-template-columns: 1fr 3.5fr;
+    min-height: 100vh;
+    accent-color: #000000;
+}
+
+#inputs {
+    grid-area: 'inputs';
+    background-color: #3B49E6;
+    padding: 20px;
+    color: white;
+}
+
+#table {
+    grid-area: 'table';
+    padding: 20px;
+}
+
+/* ==================================== Headings & Paragraphs ==================================== */
+
+h1 {
+    margin-bottom: 20px;
+}
+
+/* ==================================== Inputs ==================================== */
+
+.input {
+    width: 100%;
+    height: 35px;
+    margin: 5px 0;
+    padding: 5px 5px 5px 8px;
+    border-radius: 5px;
+    border: none;
+}
+
+.errortext {
+    font-size: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    margin-left: 5px;
+}
+
+.fas {
+    /* visibility: hidden; */
+    margin-top: 5px;
+    color: rgb(70, 6, 6);
+}
+
+/* ==================================== Table ==================================== */
+
+
+#table {
+    border-collapse: collapse;
+    float: right;
+}
+
+tr:first-of-type {
+    background-color: #630000;
+}
+
+th,
+td {
+    border: 1px solid #555555;
+    text-align: left;
+    padding: 8px;
+    background-color: #ffffff;
+}
