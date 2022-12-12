@@ -86,7 +86,7 @@ td {
 
 /* ==================================== Delete confirmation ==================================== */
 
-#confirm, #details {
+#confirm, #details, #save {
     visibility: hidden;
 }
 
