@@ -86,11 +86,12 @@ td {
 
 /* ==================================== Delete confirmation ==================================== */
 
-#confirm {
+#confirm, #details {
     visibility: hidden;
 }
 
 #cancel,
+#cancel2,
 #delete {
     width: 20%;
     border-radius: 60px;
@@ -100,7 +101,7 @@ td {
     margin-top: 10px;
 }
 
-#cancel {
+#cancel, #cancel2 {
     background-color: #d5d5d5;
     display: inline-block;
 }
@@ -110,7 +111,7 @@ td {
     display: inline-block;
 }
 
-#sub-confirm {
+#sub-confirm, #sub-details {
     display: block;
     margin: auto;
     padding: 100px 0;
@@ -121,7 +122,7 @@ td {
     margin-bottom: 30px;
 }
 
-#confirm {
+#confirm, #details {
     padding-top: 200px;
     position: fixed;
     z-index: 1;
@@ -133,11 +134,11 @@ td {
     background-color: rgba(0, 0, 0, 0.4);
 }
 
-#confirm p {
+#confirm p, #details p {
     margin-top: 10px;
     font-size: 1rem;
 }
 
-#confirm h2 {
+#confirm h2, #details h2 {
     font-size: 2rem;
 }
