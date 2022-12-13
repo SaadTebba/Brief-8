@@ -1,12 +1,14 @@
 class Article {
 
-  constructor(nom, marque, prix, date, type, promotion) {
+  constructor(nom, marque, prix, date, type, promotion, modifier, supprimer) {
     this.nom = nom;
     this.marque = marque;
     this.prix = prix;
     this.date = date;
     this.type = type;
     this.promotion = promotion;
+    this.modifier = modifier;
+    this.supprimer = supprimer;
   }
 
   details() {
@@ -78,6 +80,8 @@ function validate() {
     return false;
   }
 }
+
+// let newRowNewArticle
 
 function ajouter() {
 
@@ -277,31 +281,31 @@ function ajouter() {
 
 //   function create() {
 
-//     let nom = document.getElementById("nom").value;
-//     let marque = document.getElementById("marque").value;
-//     let prix = document.getElementById("prix").value;
-//     let date = document.getElementById("date").value;
-//     let type = document.getElementById("type").value;
-//     let promotion = document.querySelector("form").promotion.value;
+    let nom = document.getElementById("nom").value;
+    let marque = document.getElementById("marque").value;
+    let prix = document.getElementById("prix").value;
+    let date = document.getElementById("date").value;
+    let type = document.getElementById("type").value;
+    let promotion = document.querySelector("form").promotion.value;
 
-//     let newRowNewArticle = new Article(nom, marque, prix, date, type, promotion)
+    let newRowNewArticle = new Article(nom, marque, prix, date, type, promotion)
 
-//     newRowNewArticle = {
+    newRowNewArticle = {
 
-//       table: document.getElementById("table"),
+      table: document.getElementById("table"),
 
-//       row: table.insertRow(),
+      row: table.insertRow(),
 
-//       nomcell: row.insertCell(),
-//       marquecell: row.insertCell(),
-//       prixcell: row.insertCell(),
-//       datecell: row.insertCell(),
-//       typecell: row.insertCell(),
-//       promotioncell: row.insertCell(),
-//       modifiercell: row.insertCell(),
-//       supprimercell: row.insertCell(),
+      nomcell: row.insertCell(),
+      marquecell: row.insertCell(),
+      prixcell: row.insertCell(),
+      datecell: row.insertCell(),
+      typecell: row.insertCell(),
+      promotioncell: row.insertCell(),
+      modifiercell: row.insertCell(),
+      supprimercell: row.insertCell(),
 
-//     };
+    };
 //   }
 
 //   function emptyValues() {
