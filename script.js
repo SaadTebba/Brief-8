@@ -1,20 +1,21 @@
-class Article {
+// Class - with constructor & details method ===========================================================================
 
-  constructor(nom, marque, prix, date, type, promotion, modifier, supprimer) {
+class Article {
+  constructor(nom, marque, prix, date, type, promotion) {
     this.nom = nom;
     this.marque = marque;
     this.prix = prix;
     this.date = date;
     this.type = type;
     this.promotion = promotion;
-    this.modifier = modifier;
-    this.supprimer = supprimer;
-  }
-
-  details() {
-    console.log("details method");
+    this.details = function () {
+      document.getElementById("details").style.visibility = "visible";
+      document.getElementById("detailsParagraph").innerHTML = `<br><b>Nom:</b> ${this.nom}<br><b>Marque:</b> ${this.marque}<br><b>Prix:</b> ${this.prix}DH<br><b>Date:</b> ${this.date}<br><b>Type:</b> ${this.type}<br><b>En promotion:</b> ${this.promotion}<br>`
+    }
   }
 }
+
+// Validation function ===========================================================================
 
 const inputErrorArr = [];
 
@@ -81,11 +82,29 @@ function validate() {
   }
 }
 
-// let newRowNewArticle
+// Taking input values & Creating a new object out of Article class ============================================================
+
+function takeInputValues() {
+
+  let nomvalue = document.getElementById("nom").value;
+  let marquevalue = document.getElementById("marque").value;
+  let prixvalue = document.getElementById("prix").value;
+  let datevalue = document.getElementById("date").value;
+  let typevalue = document.getElementById("type").value;
+  let promotionvalue = document.querySelector("form").promotion.value;
+
+  let article = new Article(nomvalue, marquevalue, prixvalue, datevalue, typevalue, promotionvalue);
+
+  return article
+}
+
+// Ajouter button click - Creating table & Local Storage & Sorting items ===========================================================================
 
 function ajouter() {
 
   if (validate()) {
+
+    takeInputValues();
 
     let table = document.getElementById("table");
     let row = table.insertRow();
@@ -99,285 +118,110 @@ function ajouter() {
     let modifier = row.insertCell();
     let supprimer = row.insertCell();
 
-    nom.innerHTML = document.getElementById("nom").value;
-    marque.innerHTML = document.getElementById("marque").value;
-    prix.innerHTML = document.getElementById("prix").value;
-    date.innerHTML = document.getElementById("date").value;
-    type.innerHTML = document.getElementById("type").value;
-    promotion.innerHTML = document.querySelector("form").promotion.value;
+    nom.innerHTML = takeInputValues().nom;
+    marque.innerHTML = takeInputValues().marque;
+    prix.innerHTML = takeInputValues().prix;
+    date.innerHTML = takeInputValues().date;
+    type.innerHTML = takeInputValues().type;
+    promotion.innerHTML = takeInputValues().promotion;
+
     modifier.innerHTML = "Modifier";
+    modifier.onclick = function () {
+
+      document.getElementById("save").style.visibility = "visible";
+      document.getElementById("ajouter").style.visibility = "hidden";
+
+      document.getElementById("nom").value = nom.innerHTML;
+      document.getElementById("marque").value = marque.innerHTML;
+      document.getElementById("prix").value = prix.innerHTML;
+      document.getElementById("date").value = date.innerHTML;
+      document.getElementById("type").value = type.innerHTML;
+      document.querySelector("form").promotion.value = promotion.innerHTML;
+
+      document.getElementById("save").onclick = function () {
+
+        if (validate()) {
+          nom.innerHTML = document.getElementById("nom").value;
+          marque.innerHTML = document.getElementById("marque").value;
+          prix.innerHTML = document.getElementById("prix").value;
+          date.innerHTML = document.getElementById("date").value;
+          type.innerHTML = document.getElementById("type").value;
+          promotion.innerHTML = document.querySelector("form").promotion.value;
+
+          emptyValues();
+
+          document.getElementById("save").style.visibility = "hidden";
+          document.getElementById("ajouter").style.visibility = "visible";
+
+          sortTable();
+
+        }
+      };
+    };
+
     supprimer.innerHTML = "Supprimer";
-
-    const localStorageArr = [];
-
-    localStorageArr.push(table.row);
-
-  window.localStorage.setItem("localStorageArr", JSON.stringify(localStorageArr));
-
-  if (localStorage.table != null) {
-
-    locsto = JSON.parse(localStorage.table);
-    for (let i in locsto) {
-      localStorageArr.push(
-        new Article(
-          locsto[i].nom,
-          locsto[i].marque,
-          locsto[i].prix,
-          locsto[i].date,
-          locsto[i].type,
-          locsto[i].promotion
-        )
-      );
+    supprimer.onclick = function () {
+      document.getElementById("confirm").style.visibility = "visible";
+      document.getElementById('delete').onclick = function () {
+        row.remove();
+        localStorage.removeItem(row.remove());
+        document.getElementById("confirm").style.visibility = "hidden";
+      };
     }
-  }
 
-  function emptyValues() {
-    document.getElementById("nom").value = "";
-    document.getElementById("marque").value = "";
-    document.getElementById("prix").value = "";
-    document.getElementById("date").value = "";
-    document.getElementById("type").value = "choisis une option";
-    non.checked = false;
-    oui.checked = false;
-  }
+    takeInputValues().details();
 
-  emptyValues();
+    function sortTable() {
 
-  // Suppression ========================================================================================
-
-  supprimer.onclick = function () {
-    document.getElementById("confirm").style.visibility = "visible";
-    document.getElementById('delete').onclick = function () {
-      row.remove();
-      document.getElementById("confirm").style.visibility = "hidden";
-    };
-  }
-
-
-  // Modification =======================================================================================
-
-  modifier.onclick = function () {
-
-    document.getElementById("save").style.visibility = "visible";
-    document.getElementById("ajouter").style.visibility = "hidden";
-
-    document.getElementById("nom").value = nom.innerHTML;
-    document.getElementById("marque").value = marque.innerHTML;
-    document.getElementById("prix").value = prix.innerHTML;
-    document.getElementById("date").value = date.innerHTML;
-    document.getElementById("type").value = type.innerHTML;
-    document.querySelector("form").promotion.value = promotion.innerHTML;
-
-    document.getElementById("save").onclick = function () {
-
-      if (validate()) {
-        nom.innerHTML = document.getElementById("nom").value;
-        marque.innerHTML = document.getElementById("marque").value;
-        prix.innerHTML = document.getElementById("prix").value;
-        date.innerHTML = document.getElementById("date").value;
-        type.innerHTML = document.getElementById("type").value;
-        promotion.innerHTML = document.querySelector("form").promotion.value;
-        emptyValues();
-        document.getElementById("save").style.visibility = "hidden";
-        document.getElementById("ajouter").style.visibility = "visible";
-
+      let table, rows, switching, i, x, y, shouldSwitch;
+      table = document.getElementById("table");
+      switching = true;
+      while (switching) {
+        switching = false;
+        rows = table.rows;
+        for (i = 1; i < rows.length; i++) {
+          shouldSwitch = false;
+          x = rows[i].getElementsByTagName("td")[0];
+          y = rows[i + 1].getElementsByTagName("td")[0];
+          if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+            shouldSwitch = true;
+            break;
+          }
+        }
+        if (shouldSwitch) {
+          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+          switching = true;
+        }
       }
-    };
-  };
+    }
+
+    localStorage.setItem(takeInputValues().nom, JSON.stringify(takeInputValues()));
+
+    localStorage.getItem(takeInputValues().nom)
+
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.takeInputValues()(i);
+      const value = localStorage.getItem(takeInputValues());
+      const isoutput = document.getElementById("test")
+
+      isoutput.innerHTML += `${key}: ${value}<br>`
+    }
+    
+
+    // if (localStorage.table != null) {
+    //   locsto = JSON.parse(localStorage.table);
+    // }
+
+    // function emptyValues() {
+    //   document.getElementById("nom").value = "";
+    //   document.getElementById("marque").value = "";
+    //   document.getElementById("prix").value = "";
+    //   document.getElementById("date").value = "";
+    //   document.getElementById("type").value = "choisis une option";
+    //   non.checked = false;
+    //   oui.checked = false;
+    // }
+    // emptyValues();
+
+  }
 }
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// function ajouter() {
-
-//   function validation() {
-//     const errorArr = [];
-//     arr.length = 0;
-
-//     let nomMarqueValidation = /^[aA-zZ ?aA-zZ]{3,30}$/;
-//     let prixValidation = /^[0-9]+\$?$/;
-
-//     let nom = document.getElementById("nom").value;
-//     let marque = document.getElementById("marque").value;
-//     let prix = document.getElementById("prix").value;
-//     let date = document.getElementById("date").value;
-//     let type = document.getElementById("type").value;
-
-//     if (nomMarqueValidation.test(nom)) {
-//       document.getElementById("nomerror").style.visibility = "hidden";
-//     } else {
-//       document.getElementById("nomerror").style.visibility = "visible";
-//       arr.push(1);
-//     }
-
-//     if (nomMarqueValidation.test(marque)) {
-//       document.getElementById("marqueerror").style.visibility = "hidden";
-//     } else {
-//       document.getElementById("marqueerror").style.visibility = "visible";
-//       arr.push(1);
-//     }
-
-//     if (prixValidation.test(prix)) {
-//       document.getElementById("prixerror").style.visibility = "hidden";
-//     } else {
-//       document.getElementById("prixerror").style.visibility = "visible";
-//       arr.push(1);
-//     }
-
-//     if (date == "") {
-//       document.getElementById("dateerror").style.visibility = "visible";
-//       arr.push(1);
-//     } else {
-//       document.getElementById("dateerror").style.visibility = "hidden";
-//     }
-
-//     if (type == "choisis une option") {
-//       document.getElementById("typeerror").style.visibility = "visible";
-//       arr.push(1);
-//     } else {
-//       document.getElementById("typeerror").style.visibility = "hidden";
-//     }
-
-//     if (non.checked || oui.checked) {
-//       document.getElementById("promotionerror").style.visibility = "hidden";
-//     } else {
-//       arr.push(1);
-//       document.getElementById("promotionerror").style.visibility = "visible";
-//     }
-
-//     if (arr == 0) {
-//       return true;
-//     } else {
-//       return false;
-//     }
-//   }
-
-//   function create() {
-
-    let nom = document.getElementById("nom").value;
-    let marque = document.getElementById("marque").value;
-    let prix = document.getElementById("prix").value;
-    let date = document.getElementById("date").value;
-    let type = document.getElementById("type").value;
-    let promotion = document.querySelector("form").promotion.value;
-
-    let newRowNewArticle = new Article(nom, marque, prix, date, type, promotion)
-
-    newRowNewArticle = {
-
-      table: document.getElementById("table"),
-
-      row: table.insertRow(),
-
-      nomcell: row.insertCell(),
-      marquecell: row.insertCell(),
-      prixcell: row.insertCell(),
-      datecell: row.insertCell(),
-      typecell: row.insertCell(),
-      promotioncell: row.insertCell(),
-      modifiercell: row.insertCell(),
-      supprimercell: row.insertCell(),
-
-    };
-//   }
-
-//   function emptyValues() {
-//     document.getElementById("nom").value = "";
-//     document.getElementById("marque").value = "";
-//     document.getElementById("prix").value = "";
-//     document.getElementById("date").value = "";
-//     document.getElementById("type").value = "choisis une option";
-//     non.checked = false;
-//     oui.checked = false;
-//   }
-
-//   modifier.onclick = function () {
-
-//     document.getElementById("save").style.visibility = "visible";
-
-//     document.getElementById("nom").value = nom.innerHTML;
-//     document.getElementById("marque").value = marque.innerHTML;
-//     document.getElementById("prix").value = prix.innerHTML;
-//     document.getElementById("date").value = date.innerHTML;
-//     document.getElementById("type").value = type.innerHTML;
-//     document.querySelector("form").promotion.value = promotion.innerHTML;
-
-//     document.getElementById("save").onclick = function () {
-
-//       if (validate()) {
-//         nom.innerHTML = document.getElementById("nom").value;
-//         marque.innerHTML = document.getElementById("marque").value;
-//         prix.innerHTML = document.getElementById("prix").value;
-//         date.innerHTML = document.getElementById("date").value;
-//         type.innerHTML = document.getElementById("type").value;
-//         promotion.innerHTML = document.querySelector("form").promotion.value;
-//         emptyValues();
-//         document.getElementById("save").style.visibility = "hidden";
-
-//       };
-//     };
-//   }
-
-//   supprimer.onclick = function () {
-//     document.getElementById("confirm").style.visibility = "visible";
-//     document.getElementById('delete').onclick = function () {
-//       row.remove();
-//       document.getElementById("confirm").style.visibility = "hidden";
-//     };
-//   }
-
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// localStorage.setItem("a", nom.innerHTML);
-// localStorage.setItem("b", marque.innerHTML);
-// localStorage.setItem("c", prix.innerHTML);
-// localStorage.setItem("d", date.innerHTML);
-// localStorage.setItem("e", type.innerHTML);
-// localStorage.setItem("f", promotion.innerHTML);
-// localStorage.setItem("g", supprimer.innerHTML);
-
