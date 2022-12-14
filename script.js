@@ -166,7 +166,7 @@ function createTable() {
         document.getElementById("save").style.visibility = "hidden";
         document.getElementById("ajouter").style.visibility = "visible";
 
-        // sortTable();
+        sortTable();
 
       }
     };
@@ -190,7 +190,7 @@ function createTable() {
     document.getElementById("type").value,
     document.querySelector("form").promotion.value
   );
-  
+
   inputs.details();
   LocalStorageProducts.push(inputs);
 
@@ -209,6 +209,32 @@ function emptyValues() {
   
 }
 
+function sortTable() {
+
+  let table = document.getElementById("table");
+  let rows, switching, i, x, y, shouldSwitch;
+  
+  switching = true;
+  while (switching) {
+    switching = false;
+    rows = table.rows;
+    for (i = 1; i < (rows.length - 1); i++) {
+      shouldSwitch = false;
+      x = rows[i].getElementsByTagName("td")[0];
+      y = rows[i + 1].getElementsByTagName("td")[0];
+      if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+        shouldSwitch = true;
+        break;
+      }
+    }
+    if (shouldSwitch) {
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+    }
+  }
+}
+
+
 
 function ajouter() {
 
@@ -219,6 +245,8 @@ function ajouter() {
     createTable();
 
     takeInputValues().details();
+
+    sortTable();
 
     localStorage.setItem("LocalStorageProducts", JSON.stringify(LocalStorageProducts));
 
@@ -252,31 +280,6 @@ function ajouter() {
 
 
 
-
-    // function sortTable() {
-
-    //   let table = document.getElementById("table");
-    //   let rows, switching, i, x, y, shouldSwitch;
-      
-    //   switching = true;
-    //   while (switching) {
-    //     switching = false;
-    //     rows = table.rows;
-    //     for (i = 1; i < (rows.length - 1); i++) {
-    //       shouldSwitch = false;
-    //       x = rows[i].getElementsByTagName("td")[0];
-    //       y = rows[i + 1].getElementsByTagName("td")[0];
-    //       if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-    //         shouldSwitch = true;
-    //         break;
-    //       }
-    //     }
-    //     if (shouldSwitch) {
-    //       rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-    //       switching = true;
-    //     }
-    //   }
-    // }
 
 
 
