@@ -1,5 +1,3 @@
-let LocalStorageProducts = [];
-
 class Article {
   constructor(nom, marque, prix, date, type, promotion) {
     this.nom = nom;
@@ -10,35 +8,14 @@ class Article {
     this.promotion = promotion;
     this.details = function () {
       document.getElementById("details").style.visibility = "visible";
-      document.getElementById("detailsParagraph").innerHTML = `<br><b>Nom:</b> ${this.nom}<br><b>Marque:</b> ${this.marque}<br><b>Prix:</b> ${this.prix}DH<br><b>Date:</b> ${this.date}<br><b>Type:</b> ${this.type}<br><b>En promotion:</b> ${this.promotion}<br>`
-    }
+      document.getElementById(
+        "detailsParagraph"
+      ).innerHTML = `<br><b>Nom:</b> ${this.nom}<br><b>Marque:</b> ${this.marque}<br><b>Prix:</b> ${this.prix}DH<br><b>Date:</b> ${this.date}<br><b>Type:</b> ${this.type}<br><b>En promotion:</b> ${this.promotion}<br>`;
+    };
   }
 }
 
-if (localStorage.table != null) {
-      
-  localSt = JSON.parse(localStorage.getItem(takeInputValues()));
-
-  for (let i in localSt) {
-    LocalStorageProducts.push(
-      new Article(
-        localSt[i].nom,
-        localSt[i].marque,
-        localSt[i].prix,
-        localSt[i].date,
-        localSt[i].type,
-        localSt[i].promotion
-      )
-    );
-  }
-
-  createTable();
-  
-} else {
-  LocalStorageProducts = [];
-}
-
-const inputErrorArr = [];
+let inputErrorArr = [];
 
 function validate() {
 
@@ -52,7 +29,6 @@ function validate() {
   let prix = document.getElementById("prix").value;
   let date = document.getElementById("date").value;
   let type = document.getElementById("type").value;
-
 
   if (nomMarqueValidation.test(nom)) {
     document.getElementById("nomerror").style.visibility = "hidden";
@@ -104,7 +80,7 @@ function validate() {
 }
 
 function takeInputValues() {
-
+  
   let nomvalue = document.getElementById("nom").value;
   let marquevalue = document.getElementById("marque").value;
   let prixvalue = document.getElementById("prix").value;
@@ -112,9 +88,16 @@ function takeInputValues() {
   let typevalue = document.getElementById("type").value;
   let promotionvalue = document.querySelector("form").promotion.value;
 
-  let article = new Article(nomvalue, marquevalue, prixvalue, datevalue, typevalue, promotionvalue);
+  let article = new Article(
+    nomvalue,
+    marquevalue,
+    prixvalue,
+    datevalue,
+    typevalue,
+    promotionvalue
+  );
 
-  return article
+  return article;
 }
 
 function createTable() {
@@ -152,7 +135,6 @@ function createTable() {
     document.querySelector("form").promotion.value = promotion.innerHTML;
 
     document.getElementById("save").onclick = function () {
-
       if (validate()) {
         nom.innerHTML = document.getElementById("nom").value;
         marque.innerHTML = document.getElementById("marque").value;
@@ -167,7 +149,6 @@ function createTable() {
         document.getElementById("ajouter").style.visibility = "visible";
 
         sortTable();
-
       }
     };
   };
@@ -175,50 +156,25 @@ function createTable() {
   supprimer.innerHTML = "Supprimer";
   supprimer.onclick = function () {
     document.getElementById("confirm").style.visibility = "visible";
-    document.getElementById('delete').onclick = function () {
+    document.getElementById("delete").onclick = function () {
+      document.getElementById("confirm").style.visibility = "hidden";
       row.remove();
       localStorage.removeItem(takeInputValues().nom);
-      document.getElementById("confirm").style.visibility = "hidden";
     };
-  }
+  };
 
-  let inputs = new Article(
-    document.getElementById("nom").value,
-    document.getElementById("marque").value,
-    document.getElementById("prix").value,
-    document.getElementById("date").value,
-    document.getElementById("type").value,
-    document.querySelector("form").promotion.value
-  );
-
-  inputs.details();
-  LocalStorageProducts.push(inputs);
-
-  localStorage.setItem("LocalStorageProducts", JSON.stringify(LocalStorageProducts));
-
-}
-
-function emptyValues() {
-  document.getElementById("nom").value = "";
-  document.getElementById("marque").value = "";
-  document.getElementById("prix").value = "";
-  document.getElementById("date").value = "";
-  document.getElementById("type").value = "choisis une option";
-  non.checked = false;
-  oui.checked = false;
-  
 }
 
 function sortTable() {
 
   let table = document.getElementById("table");
   let rows, switching, i, x, y, shouldSwitch;
-  
+
   switching = true;
   while (switching) {
     switching = false;
     rows = table.rows;
-    for (i = 1; i < (rows.length - 1); i++) {
+    for (i = 1; i < rows.length - 1; i++) {
       shouldSwitch = false;
       x = rows[i].getElementsByTagName("td")[0];
       y = rows[i + 1].getElementsByTagName("td")[0];
@@ -234,7 +190,117 @@ function sortTable() {
   }
 }
 
+// function localStorageCreateTable() {
+//   let gettingLocalStorageItems = JSON.parse(localStorage.getItem("Aut mollitia aute qu"));
 
+//   let table = document.getElementById("table");
+//   let row = table.insertRow();
+
+//   let nom = row.insertCell();
+//   let marque = row.insertCell();
+//   let prix = row.insertCell();
+//   let date = row.insertCell();
+//   let type = row.insertCell();
+//   let promotion = row.insertCell();
+//   let modifier = row.insertCell();
+//   let supprimer = row.insertCell();
+
+//   nom.innerHTML = gettingLocalStorageItems.nom;
+//   marque.innerHTML = gettingLocalStorageItems.marque;
+//   prix.innerHTML = gettingLocalStorageItems.prix;
+//   date.innerHTML = gettingLocalStorageItems.date;
+//   type.innerHTML = gettingLocalStorageItems.type;
+//   promotion.innerHTML = gettingLocalStorageItems.promotion;
+
+//   modifier.innerHTML = "Modifier";
+//   modifier.onclick = function () {
+
+//     document.getElementById("save").style.visibility = "visible";
+//     document.getElementById("ajouter").style.visibility = "hidden";
+
+//     document.getElementById("nom").value = nom.innerHTML;
+//     document.getElementById("marque").value = marque.innerHTML;
+//     document.getElementById("prix").value = prix.innerHTML;
+//     document.getElementById("date").value = date.innerHTML;
+//     document.getElementById("type").value = type.innerHTML;
+//     document.querySelector("form").promotion.value = promotion.innerHTML;
+
+//     document.getElementById("save").onclick = function () {
+//       if (validate()) {
+//         nom.innerHTML = document.getElementById("nom").value;
+//         marque.innerHTML = document.getElementById("marque").value;
+//         prix.innerHTML = document.getElementById("prix").value;
+//         date.innerHTML = document.getElementById("date").value;
+//         type.innerHTML = document.getElementById("type").value;
+//         promotion.innerHTML = document.querySelector("form").promotion.value;
+
+//         emptyValues();
+
+//         document.getElementById("save").style.visibility = "hidden";
+//         document.getElementById("ajouter").style.visibility = "visible";
+
+//         sortTable();
+//       }
+//     };
+//   };
+
+//   supprimer.innerHTML = "Supprimer";
+//   supprimer.onclick = function () {
+//     document.getElementById("confirm").style.visibility = "visible";
+//     document.getElementById("delete").onclick = function () {
+//       document.getElementById("confirm").style.visibility = "hidden";
+//       row.remove();
+//       localStorage.removeItem(takeInputValues().nom);
+//     };
+//   };
+// }
+
+// JSON.parse(localStorage.getItem(takeInputValues().nom))
+
+// if (localStorage.getItem(takeInputValues().nom) != null) {
+//   console.log("IF worked")
+// } else {
+//   console.log("ELSE worked");
+// }
+
+let products = [];
+
+if (localStorage.table != null) {
+
+  JSON.parse(localStorage.getItem("productstable"));
+
+  for (let i in localSt) {
+    products.push(takeInputValues()[i]);
+  }
+  createTable();
+}
+
+  // localStorageCreateTable();
+
+  // for (let i = 0; i < localStorage.length; i++) {
+    
+  //   let getItemsTest = localStorage.getItem(takeInputValues().nom);
+  //   JSON.parse.getItemsTest;
+  
+  //   let value = localStorage.getItem(takeInputValues());
+  //   let output = document.getElementById("test");
+  
+  //   output.innerHTML += `${getItemsTest}: ${value}<br>`;
+  
+  //   createTable();
+  // }
+
+function emptyValues() {
+
+  document.getElementById("nom").value = "";
+  document.getElementById("marque").value = "";
+  document.getElementById("prix").value = "";
+  document.getElementById("date").value = "";
+  document.getElementById("type").value = "choisis une option";
+  non.checked = false;
+  oui.checked = false;
+
+}
 
 function ajouter() {
 
@@ -248,63 +314,12 @@ function ajouter() {
 
     sortTable();
 
-    localStorage.setItem("LocalStorageProducts", JSON.stringify(LocalStorageProducts));
+    localStorage.setItem(
+      takeInputValues().nom,
+      JSON.stringify(takeInputValues())
+    );
 
-    // for (let i = 0; i < localStorage.length; i++) {
-
-    //     let getItemsTest = localStorage.getItem(takeInputValues().nom);
-  
-    //     const value = localStorage.getItem(takeInputValues());
-    //     const output = document.getElementById("test");
-  
-    //     output.innerHTML = `${getItemsTest}: ${value}<br>`
-  
-        // createTable();
-
-      // let localSt = JSON.parse(localStorage.getItem(takeInputValues()));
-
-    }
-
-    // emptyValues();
+    emptyValues();
 
   }
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // const LocalStorageProducts = [];
-    
-    // if (localStorage.table != null) {
-      
-    //   localSt = JSON.parse(localStorage.getItem(takeInputValues()));
-    
-    //   for (let i in localSt) {
-    //     LocalStorageProducts.push(
-    //       new Article(
-    //         localSt[i].nom,
-    //         localSt[i].marque,
-    //         localSt[i].prix,
-    //         localSt[i].date,
-    //         localSt[i].type,
-    //         localSt[i].promotion
-    //       )
-    //     );
-    //   }
-    // }
+}
