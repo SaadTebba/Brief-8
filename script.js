@@ -81,23 +81,27 @@ function validate() {
 
 function takeInputValues() {
   
-  let nomvalue = document.getElementById("nom").value;
-  let marquevalue = document.getElementById("marque").value;
-  let prixvalue = document.getElementById("prix").value;
-  let datevalue = document.getElementById("date").value;
-  let typevalue = document.getElementById("type").value;
-  let promotionvalue = document.querySelector("form").promotion.value;
+  let nom = document.getElementById("nom").value;
+  let marque = document.getElementById("marque").value;
+  let prix = document.getElementById("prix").value;
+  let date = document.getElementById("date").value;
+  let type = document.getElementById("type").value;
+  let promotion = document.querySelector("form").promotion.value;
 
   let article = new Article(
-    nomvalue,
-    marquevalue,
-    prixvalue,
-    datevalue,
-    typevalue,
-    promotionvalue
+    nom,
+    marque,
+    prix,
+    date,
+    type,
+    promotion
   );
 
   return article;
+}
+
+function takeLocalStorageValues() {
+  JSON.parse(localStorage.getItem(takeInputValues()));
 }
 
 function createTable() {
@@ -189,106 +193,6 @@ function sortTable() {
     }
   }
 }
-
-// function localStorageCreateTable() {
-//   let gettingLocalStorageItems = JSON.parse(localStorage.getItem("Aut mollitia aute qu"));
-
-//   let table = document.getElementById("table");
-//   let row = table.insertRow();
-
-//   let nom = row.insertCell();
-//   let marque = row.insertCell();
-//   let prix = row.insertCell();
-//   let date = row.insertCell();
-//   let type = row.insertCell();
-//   let promotion = row.insertCell();
-//   let modifier = row.insertCell();
-//   let supprimer = row.insertCell();
-
-//   nom.innerHTML = gettingLocalStorageItems.nom;
-//   marque.innerHTML = gettingLocalStorageItems.marque;
-//   prix.innerHTML = gettingLocalStorageItems.prix;
-//   date.innerHTML = gettingLocalStorageItems.date;
-//   type.innerHTML = gettingLocalStorageItems.type;
-//   promotion.innerHTML = gettingLocalStorageItems.promotion;
-
-//   modifier.innerHTML = "Modifier";
-//   modifier.onclick = function () {
-
-//     document.getElementById("save").style.visibility = "visible";
-//     document.getElementById("ajouter").style.visibility = "hidden";
-
-//     document.getElementById("nom").value = nom.innerHTML;
-//     document.getElementById("marque").value = marque.innerHTML;
-//     document.getElementById("prix").value = prix.innerHTML;
-//     document.getElementById("date").value = date.innerHTML;
-//     document.getElementById("type").value = type.innerHTML;
-//     document.querySelector("form").promotion.value = promotion.innerHTML;
-
-//     document.getElementById("save").onclick = function () {
-//       if (validate()) {
-//         nom.innerHTML = document.getElementById("nom").value;
-//         marque.innerHTML = document.getElementById("marque").value;
-//         prix.innerHTML = document.getElementById("prix").value;
-//         date.innerHTML = document.getElementById("date").value;
-//         type.innerHTML = document.getElementById("type").value;
-//         promotion.innerHTML = document.querySelector("form").promotion.value;
-
-//         emptyValues();
-
-//         document.getElementById("save").style.visibility = "hidden";
-//         document.getElementById("ajouter").style.visibility = "visible";
-
-//         sortTable();
-//       }
-//     };
-//   };
-
-//   supprimer.innerHTML = "Supprimer";
-//   supprimer.onclick = function () {
-//     document.getElementById("confirm").style.visibility = "visible";
-//     document.getElementById("delete").onclick = function () {
-//       document.getElementById("confirm").style.visibility = "hidden";
-//       row.remove();
-//       localStorage.removeItem(takeInputValues().nom);
-//     };
-//   };
-// }
-
-// JSON.parse(localStorage.getItem(takeInputValues().nom))
-
-// if (localStorage.getItem(takeInputValues().nom) != null) {
-//   console.log("IF worked")
-// } else {
-//   console.log("ELSE worked");
-// }
-
-let products = [];
-
-if (localStorage.table != null) {
-
-  JSON.parse(localStorage.getItem("productstable"));
-
-  for (let i in localSt) {
-    products.push(takeInputValues()[i]);
-  }
-  createTable();
-}
-
-  // localStorageCreateTable();
-
-  // for (let i = 0; i < localStorage.length; i++) {
-    
-  //   let getItemsTest = localStorage.getItem(takeInputValues().nom);
-  //   JSON.parse.getItemsTest;
-  
-  //   let value = localStorage.getItem(takeInputValues());
-  //   let output = document.getElementById("test");
-  
-  //   output.innerHTML += `${getItemsTest}: ${value}<br>`;
-  
-  //   createTable();
-  // }
 
 function emptyValues() {
 
