@@ -80,7 +80,7 @@ function validate() {
 }
 
 function takeInputValues() {
-  
+
   let nom = document.getElementById("nom").value;
   let marque = document.getElementById("marque").value;
   let prix = document.getElementById("prix").value;
@@ -98,10 +98,6 @@ function takeInputValues() {
   );
 
   return article;
-}
-
-function takeLocalStorageValues() {
-  JSON.parse(localStorage.getItem(takeInputValues()));
 }
 
 function createTable() {
@@ -206,16 +202,94 @@ function emptyValues() {
 
 }
 
+function callingLocalStorageKeys() {
+
+  let values = [];
+
+  keys = Object.keys(localStorage)
+  i = keys.length;
+  while (i--) {
+    values.push(JSON.parse(localStorage.getItem(keys[i])));
+  }
+  return values;
+}
+
+function createTableLocalStorage() {
+
+  let table = document.getElementById("table");
+  let row = table.insertRow();
+
+  callingLocalStorageKeys()[0] = row.insertCell();
+  let marque = row.insertCell();
+  let prix = row.insertCell();
+  let date = row.insertCell();
+  let type = row.insertCell();
+  let promotion = row.insertCell();
+  let modifier = row.insertCell();
+  let supprimer = row.insertCell();
+
+  modifier.innerHTML = "Modifier";
+  modifier.onclick = function () {
+
+    document.getElementById("save").style.visibility = "visible";
+    document.getElementById("ajouter").style.visibility = "hidden";
+
+    document.getElementById("nom").value = nom.innerHTML;
+    document.getElementById("marque").value = marque.innerHTML;
+    document.getElementById("prix").value = prix.innerHTML;
+    document.getElementById("date").value = date.innerHTML;
+    document.getElementById("type").value = type.innerHTML;
+    document.querySelector("form").promotion.value = promotion.innerHTML;
+
+    document.getElementById("save").onclick = function () {
+      if (validate()) {
+        nom.innerHTML = document.getElementById("nom").value;
+        marque.innerHTML = document.getElementById("marque").value;
+        prix.innerHTML = document.getElementById("prix").value;
+        date.innerHTML = document.getElementById("date").value;
+        type.innerHTML = document.getElementById("type").value;
+        promotion.innerHTML = document.querySelector("form").promotion.value;
+
+        emptyValues();
+
+        document.getElementById("save").style.visibility = "hidden";
+        document.getElementById("ajouter").style.visibility = "visible";
+
+        sortTable();
+      }
+    };
+  };
+
+  supprimer.innerHTML = "Supprimer";
+  supprimer.onclick = function () {
+    document.getElementById("confirm").style.visibility = "visible";
+    document.getElementById("delete").onclick = function () {
+      document.getElementById("confirm").style.visibility = "hidden";
+      row.remove();
+      localStorage.removeItem(takeInputValues().nom);
+    };
+  };
+}
+
+if (localStorage.length != 0) {
+
+  callingLocalStorageKeys();
+
+  for (let i = 0; i < callingLocalStorageKeys().length; i++) {
+    createTableLocalStorage(callingLocalStorageKeys()[i]);
+  }
+  
+  sortTable();
+}
+
+
 function ajouter() {
 
   if (validate()) {
 
     takeInputValues();
-
     createTable();
-
     takeInputValues().details();
-
     sortTable();
 
     localStorage.setItem(
