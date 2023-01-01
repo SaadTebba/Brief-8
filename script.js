@@ -212,14 +212,14 @@ function callingLocalStorageKeys() {
     values.push(JSON.parse(localStorage.getItem(keys[i])));
   }
   return values;
-}
+} 
 
 function createTableLocalStorage() {
 
   let table = document.getElementById("table");
   let row = table.insertRow();
 
-  callingLocalStorageKeys()[0] = row.insertCell();
+  let nom = row.insertCell();
   let marque = row.insertCell();
   let prix = row.insertCell();
   let date = row.insertCell();
@@ -227,6 +227,17 @@ function createTableLocalStorage() {
   let promotion = row.insertCell();
   let modifier = row.insertCell();
   let supprimer = row.insertCell();
+
+  for (j = 0; j < callingLocalStorageKeys().length; j++) {
+
+    nom.innerHTML = callingLocalStorageKeys()[j].nom;
+    marque.innerHTML = callingLocalStorageKeys()[j].marque;
+    prix.innerHTML = callingLocalStorageKeys()[j].prix;
+    date.innerHTML = callingLocalStorageKeys()[j].date;
+    type.innerHTML = callingLocalStorageKeys()[j].type;
+    promotion.innerHTML = callingLocalStorageKeys()[j].promotion;
+    
+  }
 
   modifier.innerHTML = "Modifier";
   modifier.onclick = function () {
@@ -266,7 +277,7 @@ function createTableLocalStorage() {
     document.getElementById("delete").onclick = function () {
       document.getElementById("confirm").style.visibility = "hidden";
       row.remove();
-      localStorage.removeItem(takeInputValues().nom);
+      localStorage.removeItem(callingLocalStorageKeys().nom);
     };
   };
 }
